@@ -1,0 +1,32 @@
+datasource sqlite {
+  url      = "file:data.db"
+  provider = "sqlite"
+}
+
+generator nexus_prisma {
+  provider = "nexus-prisma"
+  output   = "../node_modules/@generated/nexus-prisma"
+}
+
+generator photon {
+  provider = "photonjs"
+  output   = "../node_modules/@generated/photon"
+}
+
+model Todo {
+  id        Int      @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String?
+  done      Boolean  @default(false)
+  author    User
+}
+
+model User {
+  id        Int      @id
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String
+  todos     Todo[]
+}
